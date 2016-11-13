@@ -1,0 +1,407 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5AC007F286283B2648CE93B8 /* libPods-MARFaceBeauty.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C4E8A41DEA48A13794891D2 /* libPods-MARFaceBeauty.a */; };
+		AFBE91D41DD6F86900357031 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBE91D31DD6F86900357031 /* main.m */; };
+		AFBE91D71DD6F86900357031 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBE91D61DD6F86900357031 /* AppDelegate.m */; };
+		AFBE91DD1DD6F86900357031 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFBE91DB1DD6F86900357031 /* Main.storyboard */; };
+		AFBE91DF1DD6F86900357031 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFBE91DE1DD6F86900357031 /* Assets.xcassets */; };
+		AFBE91E21DD6F86900357031 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFBE91E01DD6F86900357031 /* LaunchScreen.storyboard */; };
+		AFBE91EB1DD6F97100357031 /* MARFaceBeautyController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBE91EA1DD6F97100357031 /* MARFaceBeautyController.m */; };
+		AFBE91F61DD866BC00357031 /* LFGPUImageBeautyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBE91F51DD866BC00357031 /* LFGPUImageBeautyFilter.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		00D2444F3B0C77A908E254E3 /* Pods-MARFaceBeauty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MARFaceBeauty.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MARFaceBeauty/Pods-MARFaceBeauty.debug.xcconfig"; sourceTree = "<group>"; };
+		3C4E8A41DEA48A13794891D2 /* libPods-MARFaceBeauty.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MARFaceBeauty.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AFBE91CF1DD6F86900357031 /* MARFaceBeauty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MARFaceBeauty.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AFBE91D31DD6F86900357031 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		AFBE91D51DD6F86900357031 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		AFBE91D61DD6F86900357031 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		AFBE91DC1DD6F86900357031 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		AFBE91DE1DD6F86900357031 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AFBE91E11DD6F86900357031 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		AFBE91E31DD6F86900357031 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AFBE91E91DD6F97100357031 /* MARFaceBeautyController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MARFaceBeautyController.h; sourceTree = "<group>"; };
+		AFBE91EA1DD6F97100357031 /* MARFaceBeautyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MARFaceBeautyController.m; sourceTree = "<group>"; };
+		AFBE91F41DD866BC00357031 /* LFGPUImageBeautyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFGPUImageBeautyFilter.h; sourceTree = "<group>"; };
+		AFBE91F51DD866BC00357031 /* LFGPUImageBeautyFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFGPUImageBeautyFilter.m; sourceTree = "<group>"; };
+		C4F3F167D8E5F0DC8AFDDD8F /* Pods-MARFaceBeauty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MARFaceBeauty.release.xcconfig"; path = "Pods/Target Support Files/Pods-MARFaceBeauty/Pods-MARFaceBeauty.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AFBE91CC1DD6F86900357031 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5AC007F286283B2648CE93B8 /* libPods-MARFaceBeauty.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1206C21C4DA9A3223E5B81C3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				00D2444F3B0C77A908E254E3 /* Pods-MARFaceBeauty.debug.xcconfig */,
+				C4F3F167D8E5F0DC8AFDDD8F /* Pods-MARFaceBeauty.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		7B77E14960676CBC2D227708 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3C4E8A41DEA48A13794891D2 /* libPods-MARFaceBeauty.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AFBE91C61DD6F86900357031 = {
+			isa = PBXGroup;
+			children = (
+				AFBE91D11DD6F86900357031 /* MARFaceBeauty */,
+				AFBE91D01DD6F86900357031 /* Products */,
+				1206C21C4DA9A3223E5B81C3 /* Pods */,
+				7B77E14960676CBC2D227708 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		AFBE91D01DD6F86900357031 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AFBE91CF1DD6F86900357031 /* MARFaceBeauty.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AFBE91D11DD6F86900357031 /* MARFaceBeauty */ = {
+			isa = PBXGroup;
+			children = (
+				AFBE91D51DD6F86900357031 /* AppDelegate.h */,
+				AFBE91D61DD6F86900357031 /* AppDelegate.m */,
+				AFBE91F41DD866BC00357031 /* LFGPUImageBeautyFilter.h */,
+				AFBE91F51DD866BC00357031 /* LFGPUImageBeautyFilter.m */,
+				AFBE91E91DD6F97100357031 /* MARFaceBeautyController.h */,
+				AFBE91EA1DD6F97100357031 /* MARFaceBeautyController.m */,
+				AFBE91DB1DD6F86900357031 /* Main.storyboard */,
+				AFBE91DE1DD6F86900357031 /* Assets.xcassets */,
+				AFBE91E01DD6F86900357031 /* LaunchScreen.storyboard */,
+				AFBE91E31DD6F86900357031 /* Info.plist */,
+				AFBE91D21DD6F86900357031 /* Supporting Files */,
+			);
+			path = MARFaceBeauty;
+			sourceTree = "<group>";
+		};
+		AFBE91D21DD6F86900357031 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AFBE91D31DD6F86900357031 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AFBE91CE1DD6F86900357031 /* MARFaceBeauty */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AFBE91E61DD6F86900357031 /* Build configuration list for PBXNativeTarget "MARFaceBeauty" */;
+			buildPhases = (
+				D4E69265BEA05DDBAE56E3BF /* [CP] Check Pods Manifest.lock */,
+				AFBE91CB1DD6F86900357031 /* Sources */,
+				AFBE91CC1DD6F86900357031 /* Frameworks */,
+				AFBE91CD1DD6F86900357031 /* Resources */,
+				FAF9F3DC2429FA00FE36CCCE /* [CP] Embed Pods Frameworks */,
+				EE0B518176D74B958190F8A8 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MARFaceBeauty;
+			productName = MARFaceBeauty;
+			productReference = AFBE91CF1DD6F86900357031 /* MARFaceBeauty.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AFBE91C71DD6F86900357031 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0810;
+				ORGANIZATIONNAME = Maru;
+				TargetAttributes = {
+					AFBE91CE1DD6F86900357031 = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = 678WD436L9;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = AFBE91CA1DD6F86900357031 /* Build configuration list for PBXProject "MARFaceBeauty" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AFBE91C61DD6F86900357031;
+			productRefGroup = AFBE91D01DD6F86900357031 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AFBE91CE1DD6F86900357031 /* MARFaceBeauty */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AFBE91CD1DD6F86900357031 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AFBE91E21DD6F86900357031 /* LaunchScreen.storyboard in Resources */,
+				AFBE91DF1DD6F86900357031 /* Assets.xcassets in Resources */,
+				AFBE91DD1DD6F86900357031 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D4E69265BEA05DDBAE56E3BF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		EE0B518176D74B958190F8A8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MARFaceBeauty/Pods-MARFaceBeauty-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FAF9F3DC2429FA00FE36CCCE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MARFaceBeauty/Pods-MARFaceBeauty-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AFBE91CB1DD6F86900357031 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AFBE91F61DD866BC00357031 /* LFGPUImageBeautyFilter.m in Sources */,
+				AFBE91EB1DD6F97100357031 /* MARFaceBeautyController.m in Sources */,
+				AFBE91D71DD6F86900357031 /* AppDelegate.m in Sources */,
+				AFBE91D41DD6F86900357031 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		AFBE91DB1DD6F86900357031 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AFBE91DC1DD6F86900357031 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		AFBE91E01DD6F86900357031 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AFBE91E11DD6F86900357031 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		AFBE91E41DD6F86900357031 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AFBE91E51DD6F86900357031 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AFBE91E71DD6F86900357031 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 00D2444F3B0C77A908E254E3 /* Pods-MARFaceBeauty.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 678WD436L9;
+				INFOPLIST_FILE = MARFaceBeauty/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = alloc.MARFaceBeauty;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		AFBE91E81DD6F86900357031 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C4F3F167D8E5F0DC8AFDDD8F /* Pods-MARFaceBeauty.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 678WD436L9;
+				INFOPLIST_FILE = MARFaceBeauty/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = alloc.MARFaceBeauty;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AFBE91CA1DD6F86900357031 /* Build configuration list for PBXProject "MARFaceBeauty" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AFBE91E41DD6F86900357031 /* Debug */,
+				AFBE91E51DD6F86900357031 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AFBE91E61DD6F86900357031 /* Build configuration list for PBXNativeTarget "MARFaceBeauty" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AFBE91E71DD6F86900357031 /* Debug */,
+				AFBE91E81DD6F86900357031 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AFBE91C71DD6F86900357031 /* Project object */;
+}
