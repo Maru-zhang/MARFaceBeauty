@@ -16,10 +16,14 @@
 #define kCameraWidth 540.0f
 #define kCameraHeight 960.0f
 
+#define kWeakSelf __weak typeof(self) weakSelf = self;
+
 #define RMDefaultVideoPath [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"Movie.mov"]
 
 @interface MARFaceBeautyController () <CAAnimationDelegate> {
     CGFloat _allTime;
+    UIImage *_tempImg;
+    AVPlayerLayer *_avplayer;
 }
 
 @property (nonatomic, strong) UISlider *sliderView;
@@ -27,7 +31,10 @@
 @property (nonatomic, strong) UIButton *filterSwitch;
 @property (nonatomic, strong) UIButton *cameraSwitch;
 @property (nonatomic, strong) UIButton *recordButton;
+@property (nonatomic, strong) UIButton *downButton;
+@property (nonatomic, strong) UIButton *recaptureButton;
 @property (nonatomic, strong) GPUImageView *cameraView;
+@property (nonatomic, strong) UIImageView *imageView;
 
 @property (nonatomic, strong) CALayer *focusLayer;
 @property (nonatomic, strong) NSTimer *timer;
@@ -51,9 +58,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor grayColor];
-    
     [self setupUI];
+    
+    [self setupNotification];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -61,9 +68,15 @@
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - Private Method
 
 - (void)setupUI {
+    
+    self.view.backgroundColor = [UIColor grayColor];
     
     self.cameraView = ({
         GPUImageView *g = [[GPUImageView alloc] init];
@@ -72,6 +85,13 @@
         [g setFillMode:kGPUImageFillModePreserveAspectRatioAndFill];
         [self.view addSubview:g];
         g;
+    });
+    
+    self.imageView = ({
+        UIImageView *i = [[UIImageView alloc] init];
+        i.hidden = YES;
+        [self.view addSubview:i];
+        i;
     });
     
     self.flashSwitch = ({
@@ -111,6 +131,25 @@
         b;
     });
     
+    self.downButton = ({
+        UIButton *b = [UIButton buttonWithType:UIButtonTypeCustom];
+        b.alpha = 0.0;
+        [b addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchUpInside];
+        [b setBackgroundImage:[UIImage imageNamed:@"ic_down_button_55x55_"] forState:UIControlStateNormal];
+        [b setBackgroundImage:[UIImage imageNamed:@"ic_down_button_press_55x55_"] forState:UIControlStateHighlighted];
+        [self.view addSubview:b];
+        b;
+    });
+    
+    self.recaptureButton = ({
+        UIButton *b = [UIButton buttonWithType:UIButtonTypeCustom];
+        b.alpha = 0.0;
+        [b setBackgroundImage:[UIImage imageNamed:@"camera_btn_return_normal_55x55_"] forState:UIControlStateNormal];
+        [b addTarget:self action:@selector(recaptureAction) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:b];
+        b;
+    });
+    
     self.sliderView = ({
         UISlider *s = [[UISlider alloc] init];
         [s setThumbImage:[UIImage new] forState:UIControlStateNormal];
@@ -126,20 +165,42 @@
     _movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:[NSURL fileURLWithPath:self.moviePath] size:CGSizeMake(kCameraWidth, kCameraWidth) fileType:AVFileTypeQuickTimeMovie outputSettings:self.videoSettings];
     self.videoCamera.audioEncodingTarget = _movieWriter;
     
-    
     [self.videoCamera startCameraCapture];
 
+}
+
+- (void)setupNotification {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(moviePlayDidEnd:)
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationWillResignActive:)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidBecomeActive:)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
 }
 
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     
     self.cameraView.frame = self.view.bounds;
+    self.imageView.frame = self.view.bounds;
     self.cameraSwitch.frame = CGRectMake(self.view.frame.size.width - kMARSwitchW - kMARGap, 30, kMARSwitchW, kMARSwitchW);
     self.filterSwitch.frame = CGRectMake(CGRectGetMinX(self.cameraSwitch.frame) - kMARSwitchW - kMARGap, 30, kMARSwitchW, kMARSwitchW);
     self.flashSwitch.frame = CGRectMake(CGRectGetMinX(self.filterSwitch.frame) - kMARSwitchW - kMARGap, 30, kMARSwitchW, kMARSwitchW);
     self.recordButton.bounds = CGRectMake(0, 0, 70, 70);
     self.recordButton.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height - 50);
+    self.downButton.center = self.recordButton.center;
+    self.downButton.bounds = CGRectMake(0, 0, 55, 55);
+    self.recaptureButton.center = CGPointMake(60, self.downButton.center.y);
+    self.recaptureButton.bounds = CGRectMake(0, 0, 55, 55);
 }
 
 #pragma mark - Logic Method
@@ -174,25 +235,43 @@
         // 储存到图片库,并且设置回调.
         [self.movieWriter finishRecording];
         
+        kWeakSelf
         [self.videoCamera capturePhotoAsImageProcessedUpToFilter:(self.filterSwitch.selected ? self.leveBeautyFilter : self.normalFilter) withCompletionHandler:^(UIImage *processedImage, NSError *error) {
-            UIImageWriteToSavedPhotosAlbum(processedImage, self, nil, nil);
+            _tempImg = processedImage;
             [self createNewWritter];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.imageView setImage:processedImage];
+                weakSelf.imageView.hidden = NO;
+                [UIView animateWithDuration:0.5 animations:^{
+                    weakSelf.downButton.alpha = 1.0;
+                    weakSelf.recordButton.alpha = 0;
+                    weakSelf.recaptureButton.alpha = 1.0;
+                }];
+            });
         }];
         
     }else {
         // 储存到图片库,并且设置回调.
+        kWeakSelf
         [self.movieWriter finishRecordingWithCompletionHandler:^{
-            
-            UISaveVideoAtPathToSavedPhotosAlbum(RMDefaultVideoPath, self, nil, nil);
             [self createNewWritter];
-            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _avplayer = [AVPlayerLayer playerLayerWithPlayer:[AVPlayer playerWithURL:[NSURL fileURLWithPath:RMDefaultVideoPath]]];
+                _avplayer.frame = weakSelf.view.bounds;
+                [self.view.layer insertSublayer:_avplayer atIndex:2];
+                [_avplayer.player play];
+                [UIView animateWithDuration:0.5 animations:^{
+                    weakSelf.downButton.alpha = 1.0;
+                    weakSelf.recordButton.alpha = 0;
+                    weakSelf.recaptureButton.alpha = 1.0;
+                }];
+            });
         }];
     }
 
 }
 
 - (void)timerupdating {
-    
     _allTime += 0.05;
 }
 
@@ -229,8 +308,42 @@
     [self performSelector:@selector(focusLayerNormal) withObject:self afterDelay:1.0f];
 }
 
+- (void)applicationWillResignActive:(NSNotification *)notification {
+    if (_avplayer) {
+        [_avplayer.player pause];
+    }
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)notification {
+    if (_avplayer) {
+        [_avplayer.player play];
+    }
+}
 
 #pragma mark - User Action
+
+- (void)saveAction {
+    if (_tempImg) {
+        UIImageWriteToSavedPhotosAlbum(_tempImg, self, nil, nil);
+    }else {
+        UISaveVideoAtPathToSavedPhotosAlbum(RMDefaultVideoPath, self, nil, nil);
+    }
+    [self recaptureAction];
+}
+
+- (void)recaptureAction {
+    
+    [_avplayer.player pause];
+    [_avplayer removeFromSuperlayer];
+    _avplayer = nil;
+    _tempImg = nil;
+    self.imageView.hidden = YES;
+    [UIView animateWithDuration:0.5 animations:^{
+        self.recordButton.alpha = 1.0;
+        self.downButton.alpha = 0.0;
+        self.recaptureButton.alpha = 0.0;
+    }];
+}
 
 - (void)turnAction:(id)sender {
     
@@ -311,6 +424,13 @@
             NSLog(@"ERROR = %@", error);
         }
     }
+}
+
+#pragma mark - Notification Action 
+
+- (void)moviePlayDidEnd:(NSNotification *)notification {
+    [_avplayer.player seekToTime:kCMTimeZero];
+    [_avplayer.player play];
 }
 
 #pragma mark - Animation
