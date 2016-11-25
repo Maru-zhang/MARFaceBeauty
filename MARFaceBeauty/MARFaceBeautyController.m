@@ -135,8 +135,7 @@
         UIButton *b = [UIButton buttonWithType:UIButtonTypeCustom];
         b.alpha = 0.0;
         [b addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchUpInside];
-        [b setBackgroundImage:[UIImage imageNamed:@"ic_down_button_55x55_"] forState:UIControlStateNormal];
-        [b setBackgroundImage:[UIImage imageNamed:@"ic_down_button_press_55x55_"] forState:UIControlStateHighlighted];
+        [b setBackgroundImage:[UIImage imageNamed:@"camera_btn_download_normal_55x55_"] forState:UIControlStateNormal];
         [self.view addSubview:b];
         b;
     });
@@ -258,7 +257,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 _avplayer = [AVPlayerLayer playerLayerWithPlayer:[AVPlayer playerWithURL:[NSURL fileURLWithPath:RMDefaultVideoPath]]];
                 _avplayer.frame = weakSelf.view.bounds;
-                [self.view.layer insertSublayer:_avplayer atIndex:2];
+                [self.view.layer insertSublayer:_avplayer above:self.cameraView.layer];
                 [_avplayer.player play];
                 [UIView animateWithDuration:0.5 animations:^{
                     weakSelf.downButton.alpha = 1.0;
