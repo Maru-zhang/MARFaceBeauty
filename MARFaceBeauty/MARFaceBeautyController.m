@@ -16,6 +16,8 @@
 #define kCameraWidth 540.0f
 #define kCameraHeight 960.0f
 
+#define kRecordW 87
+
 #define kWeakSelf __weak typeof(self) weakSelf = self;
 
 #define RMDefaultVideoPath [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"Movie.mov"]
@@ -124,7 +126,7 @@
     self.recordButton = ({
         UIButton *b = [UIButton buttonWithType:UIButtonTypeCustom];
         [b setBackgroundImage:[UIImage imageNamed:@"record_shutter_untouch"] forState:UIControlStateNormal];
-        [b setBackgroundImage:[UIImage imageNamed:@"record_shutter_touching"] forState:UIControlStateHighlighted];
+        [b setBackgroundImage:[UIImage imageNamed:@"camera_btn_camera_normal_87x87_"] forState:UIControlStateHighlighted];
         [b addTarget:self action:@selector(beginRecord) forControlEvents:UIControlEventTouchDown];
         [b addTarget:self action:@selector(endRecord) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
         [self.view addSubview:b];
@@ -194,7 +196,7 @@
     self.cameraSwitch.frame = CGRectMake(self.view.frame.size.width - kMARSwitchW - kMARGap, 30, kMARSwitchW, kMARSwitchW);
     self.filterSwitch.frame = CGRectMake(CGRectGetMinX(self.cameraSwitch.frame) - kMARSwitchW - kMARGap, 30, kMARSwitchW, kMARSwitchW);
     self.flashSwitch.frame = CGRectMake(CGRectGetMinX(self.filterSwitch.frame) - kMARSwitchW - kMARGap, 30, kMARSwitchW, kMARSwitchW);
-    self.recordButton.bounds = CGRectMake(0, 0, 70, 70);
+    self.recordButton.bounds = CGRectMake(0, 0, kRecordW, kRecordW);
     self.recordButton.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height - 50);
     self.downButton.center = self.recordButton.center;
     self.downButton.bounds = CGRectMake(0, 0, 55, 55);
@@ -241,8 +243,9 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.imageView setImage:processedImage];
                 weakSelf.imageView.hidden = NO;
+                weakSelf.downButton.alpha = 1.0;
                 [UIView animateWithDuration:0.5 animations:^{
-                    weakSelf.downButton.alpha = 1.0;
+                    weakSelf.recordButton.frame = weakSelf.downButton.frame;
                     weakSelf.recordButton.alpha = 0;
                     weakSelf.recaptureButton.alpha = 1.0;
                 }];
@@ -337,11 +340,18 @@
     _avplayer = nil;
     _tempImg = nil;
     self.imageView.hidden = YES;
-    [UIView animateWithDuration:0.5 animations:^{
-        self.recordButton.alpha = 1.0;
-        self.downButton.alpha = 0.0;
-        self.recaptureButton.alpha = 0.0;
-    }];
+    self.recordButton.bounds = CGRectMake(0, 0, kRecordW, kRecordW);
+    self.recordButton.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height - 50);
+    self.recordButton.alpha = 1.0;
+    self.downButton.alpha = 0.0;
+    self.recaptureButton.alpha = 0.0;
+//    [UIView animateWithDuration:0.5 animations:^{
+//        self.recordButton.bounds = CGRectMake(0, 0, kRecordW, kRecordW);
+//        self.recordButton.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height - 50);
+//        self.recordButton.alpha = 1.0;
+//        self.downButton.alpha = 0.0;
+//        self.recaptureButton.alpha = 0.0;
+//    }];
 }
 
 - (void)turnAction:(id)sender {
