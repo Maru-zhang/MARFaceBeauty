@@ -21,6 +21,8 @@
 
 #define kFaceUColor [UIColor colorWithRed:66 / 255.0 green:222 / 255.0 blue:182 / 255.0 alpha:1]
 
+#define kScaleKey @"scale_layer"
+
 #define kWeakSelf __weak typeof(self) weakSelf = self;
 
 #define RMDefaultVideoPath [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"Movie.mov"]
@@ -47,6 +49,7 @@
 @property (nonatomic, strong) CAShapeLayer *ballLayer;
 @property (nonatomic, strong) CALayer *focusLayer;
 @property (nonatomic, strong) CADisplayLink *timer;
+@property (nonatomic, strong) CABasicAnimation *scaleAnimation;
 
 //******** Media Property **************
 @property (nonatomic, copy) NSString *moviePath;
@@ -204,7 +207,6 @@
     self.videoCamera.audioEncodingTarget = _movieWriter;
     
     [self.videoCamera startCameraCapture];
-
 }
 
 - (void)setupNotification {
@@ -257,11 +259,9 @@
     
     [self.movieWriter startRecording];
     
-    _timer = [CADisplayLink displayLinkWithTarget:self
-                                            selector:@selector(timerupdating)];
+    _timer = [CADisplayLink displayLinkWithTarget:self selector:@selector(timerupdating)];
     _timer.frameInterval = 3;
-    [_timer addToRunLoop:[NSRunLoop currentRunLoop]
-                    forMode:NSDefaultRunLoopMode];
+    [_timer addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     _allTime = 0;
 }
 
@@ -271,17 +271,21 @@
     [_timer invalidate];
     _timer = nil;
     
-    CABasicAnimation *animation = [CABasicAnimation animation];
-    animation.keyPath = @"translate.scale";
-    animation.fromValue = [NSNumber numberWithFloat:1.0];
-    animation.toValue = [NSNumber numberWithFloat:0.5];
-    [self.cycleLayer addAnimation:animation forKey:@"sa"];
-    
     [self.cycleLayer removeFromSuperlayer];
     [self.progressLayer removeFromSuperlayer];
     [self.ballLayer removeFromSuperlayer];
     
     [self showAllFunctionButton];
+    
+    [UIView animateWithDuration:0.8 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:1.5 options:UIViewAnimationOptionTransitionCurlUp animations:^{
+        self.recordButton.frame = self.downButton.frame;
+        self.recordButton.alpha = 0;
+        self.recaptureButton.alpha = 1.0;
+        self.downButton.alpha = 1.0;
+
+    } completion:^(BOOL finished) {
+        
+    }];
     
     [(self.filterSwitch.selected ? self.leveBeautyFilter : self.normalFilter) removeTarget:self.movieWriter];
     
@@ -296,12 +300,6 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.imageView setImage:processedImage];
                 weakSelf.imageView.hidden = NO;
-                weakSelf.downButton.alpha = 1.0;
-                [UIView animateWithDuration:0.5 animations:^{
-                    weakSelf.recordButton.frame = weakSelf.downButton.frame;
-                    weakSelf.recordButton.alpha = 0;
-                    weakSelf.recaptureButton.alpha = 1.0;
-                }];
             });
         }];
         
@@ -315,11 +313,6 @@
                 _avplayer.frame = weakSelf.view.bounds;
                 [self.view.layer insertSublayer:_avplayer above:self.cameraView.layer];
                 [_avplayer.player play];
-                [UIView animateWithDuration:0.5 animations:^{
-                    weakSelf.downButton.alpha = 1.0;
-                    weakSelf.recordButton.alpha = 0;
-                    weakSelf.recaptureButton.alpha = 1.0;
-                }];
             });
         }];
     }
@@ -398,6 +391,7 @@
     _avplayer = nil;
     _tempImg = nil;
     self.imageView.hidden = YES;
+    self.recordButton.hidden = NO;
     self.recordButton.bounds = CGRectMake(0, 0, kRecordW, kRecordW);
     self.recordButton.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height - 50);
     self.recordButton.alpha = 1.0;
@@ -616,6 +610,19 @@
         _leveBeautyFilter = [[LFGPUImageBeautyFilter alloc] init];
     }
     return _leveBeautyFilter;
+}
+
+- (CABasicAnimation *)scaleAnimation {
+    if (!_scaleAnimation) {
+        _scaleAnimation = [CABasicAnimation animation];
+        _scaleAnimation.repeatCount = HUGE_VALF;
+        _scaleAnimation.duration = 0.8;
+        _scaleAnimation.keyPath = @"transform.scale";
+        _scaleAnimation.fromValue = [NSNumber numberWithFloat:1.0];
+        _scaleAnimation.toValue = [NSNumber numberWithFloat:0.5];
+        _scaleAnimation.timingFunction = [CAMediaTimingFunction functionWithName:@"easeOut"];
+    }
+    return _scaleAnimation;
 }
 
 @end
