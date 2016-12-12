@@ -15,8 +15,11 @@
 #define kLimitRecLen 15.0f
 #define kCameraWidth 540.0f
 #define kCameraHeight 960.0f
-
 #define kRecordW 87
+
+#define kRecordCenter CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height - 50)
+
+#define kFaceUColor [UIColor colorWithRed:66 / 255.0 green:222 / 255.0 blue:182 / 255.0 alpha:1]
 
 #define kWeakSelf __weak typeof(self) weakSelf = self;
 
@@ -27,7 +30,7 @@
     UIImage *_tempImg;
     AVPlayerLayer *_avplayer;
 }
-
+//******** UIKit Property *************
 @property (nonatomic, strong) UISlider *sliderView;
 @property (nonatomic, strong) UIButton *flashSwitch;
 @property (nonatomic, strong) UIButton *filterSwitch;
@@ -38,13 +41,19 @@
 @property (nonatomic, strong) GPUImageView *cameraView;
 @property (nonatomic, strong) UIImageView *imageView;
 
+//******** Animation Property **********
+@property (nonatomic, strong) CAShapeLayer *cycleLayer;
+@property (nonatomic, strong) CAShapeLayer *progressLayer;
+@property (nonatomic, strong) CAShapeLayer *ballLayer;
 @property (nonatomic, strong) CALayer *focusLayer;
-@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) CADisplayLink *timer;
 
+//******** Media Property **************
 @property (nonatomic, copy) NSString *moviePath;
 @property (nonatomic, strong) NSDictionary *audioSettings;
 @property (nonatomic, strong) NSMutableDictionary *videoSettings;
 
+//******** GPUImage Property ***********
 @property (nonatomic, strong) GPUImageStillCamera *videoCamera;
 @property (nonatomic, strong) GPUImageFilterGroup *normalFilter;
 @property (nonatomic, strong) GPUImageMovieWriter *movieWriter;
@@ -125,7 +134,7 @@
     
     self.recordButton = ({
         UIButton *b = [UIButton buttonWithType:UIButtonTypeCustom];
-        [b setBackgroundImage:[UIImage imageNamed:@"record_shutter_untouch"] forState:UIControlStateNormal];
+        [b setBackgroundImage:[UIImage imageNamed:@"camera_btn_camera_normal_87x87_"] forState:UIControlStateNormal];
         [b setBackgroundImage:[UIImage imageNamed:@"camera_btn_camera_normal_87x87_"] forState:UIControlStateHighlighted];
         [b addTarget:self action:@selector(beginRecord) forControlEvents:UIControlEventTouchDown];
         [b addTarget:self action:@selector(endRecord) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
@@ -155,6 +164,34 @@
         UISlider *s = [[UISlider alloc] init];
         [s setThumbImage:[UIImage new] forState:UIControlStateNormal];
         s;
+    });
+    
+    self.cycleLayer = ({
+        CAShapeLayer *l = [CAShapeLayer layer];
+        l.lineWidth = 5.0f;
+        UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:kRecordCenter radius:kRecordW / 2 startAngle:0 endAngle:2 * M_PI clockwise:YES];
+        l.path = path.CGPath;
+        l.fillColor = nil;
+        l.strokeColor = [UIColor whiteColor].CGColor;
+        l;
+    });
+    
+    self.progressLayer = ({
+        CAShapeLayer *l = [CAShapeLayer layer];
+        l.lineWidth = 5.0f;
+        l.fillColor = nil;
+        l.strokeColor = kFaceUColor.CGColor;
+        l.lineCap = kCALineCapRound;
+        l;
+    });
+    
+    self.ballLayer = ({
+        CAShapeLayer *l = [CAShapeLayer layer];
+        l.lineWidth = 1.0f;
+        l.fillColor = kFaceUColor.CGColor;
+        l.strokeColor = kFaceUColor.CGColor;
+        l.lineCap = kCALineCapRound;
+        l;
     });
     
     [self.flashSwitch setHidden:YES];
@@ -210,16 +247,22 @@
     
     unlink([self.moviePath UTF8String]);
     
+    [self.view.layer addSublayer:self.cycleLayer];
+    [self.view.layer addSublayer:self.progressLayer];
+    [self.view.layer addSublayer:self.ballLayer];
+    
     [self hideAllFunctionButton];
     
     [(self.filterSwitch.selected ? self.leveBeautyFilter : self.normalFilter) addTarget:self.movieWriter];
     
     [self.movieWriter startRecording];
     
-    _timer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(timerupdating) userInfo:nil repeats:YES];
+    _timer = [CADisplayLink displayLinkWithTarget:self
+                                            selector:@selector(timerupdating)];
+    _timer.frameInterval = 3;
+    [_timer addToRunLoop:[NSRunLoop currentRunLoop]
+                    forMode:NSDefaultRunLoopMode];
     _allTime = 0;
-    [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
-    [_timer fire];
 }
 
 
@@ -227,6 +270,16 @@
     
     [_timer invalidate];
     _timer = nil;
+    
+    CABasicAnimation *animation = [CABasicAnimation animation];
+    animation.keyPath = @"translate.scale";
+    animation.fromValue = [NSNumber numberWithFloat:1.0];
+    animation.toValue = [NSNumber numberWithFloat:0.5];
+    [self.cycleLayer addAnimation:animation forKey:@"sa"];
+    
+    [self.cycleLayer removeFromSuperlayer];
+    [self.progressLayer removeFromSuperlayer];
+    [self.ballLayer removeFromSuperlayer];
     
     [self showAllFunctionButton];
     
@@ -275,6 +328,7 @@
 
 - (void)timerupdating {
     _allTime += 0.05;
+    [self updateProgress:_allTime / kLimitRecLen];
 }
 
 - (void)createNewWritter {
@@ -287,6 +341,8 @@
 
 
 - (void)hideAllFunctionButton {
+
+    self.recordButton.hidden = YES;
     
     [UIView animateWithDuration:0.5 animations:^{
         self.filterSwitch.alpha = 0;
@@ -296,6 +352,8 @@
 }
 
 - (void)showAllFunctionButton {
+    
+    self.recordButton.hidden = NO;
     
     [UIView animateWithDuration:0.5 animations:^{
         self.filterSwitch.alpha = 1.0;
@@ -345,13 +403,6 @@
     self.recordButton.alpha = 1.0;
     self.downButton.alpha = 0.0;
     self.recaptureButton.alpha = 0.0;
-//    [UIView animateWithDuration:0.5 animations:^{
-//        self.recordButton.bounds = CGRectMake(0, 0, kRecordW, kRecordW);
-//        self.recordButton.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height - 50);
-//        self.recordButton.alpha = 1.0;
-//        self.downButton.alpha = 0.0;
-//        self.recaptureButton.alpha = 0.0;
-//    }];
 }
 
 - (void)turnAction:(id)sender {
@@ -454,6 +505,17 @@
     animation.subtype = kCATransitionFromRight;
     [self.cameraView.layer addAnimation:animation forKey:nil];
     
+}
+
+- (void)updateProgress:(CGFloat)value {
+    NSAssert(value <= 1.0 && value >= 0.0, @"Progress could't accept invail number .");
+    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:kRecordCenter radius:kRecordW / 2 startAngle:- M_PI_2 endAngle:2 * M_PI * (value) - M_PI_2 clockwise:YES];
+    if (value - 0.1 <= CGFLOAT_MIN) {
+        CGFloat val = value / 0.1;
+        UIBezierPath *ballpath = [UIBezierPath bezierPathWithArcCenter:kRecordCenter radius:(kRecordW / 2  - 10) *val startAngle:0 endAngle:2 * M_PI clockwise:YES];
+        self.ballLayer.path = ballpath.CGPath;
+    }
+    self.progressLayer.path = path.CGPath;
 }
 
 - (void)focusLayerNormal {
