@@ -268,6 +268,10 @@
 
 - (void)endRecord {
     
+    if (!_timer) {
+        return;
+    }
+    
     [_timer invalidate];
     _timer = nil;
     
@@ -502,14 +506,18 @@
 }
 
 - (void)updateProgress:(CGFloat)value {
-    NSAssert(value <= 1.0 && value >= 0.0, @"Progress could't accept invail number .");
-    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:kRecordCenter radius:kRecordW / 2 startAngle:- M_PI_2 endAngle:2 * M_PI * (value) - M_PI_2 clockwise:YES];
-    if (value - 0.1 <= CGFLOAT_MIN) {
-        CGFloat val = value / 0.1;
-        UIBezierPath *ballpath = [UIBezierPath bezierPathWithArcCenter:kRecordCenter radius:(kRecordW / 2  - 10) *val startAngle:0 endAngle:2 * M_PI clockwise:YES];
-        self.ballLayer.path = ballpath.CGPath;
+//    NSAssert(value <= 1.0 && value >= 0.0, @"Progress could't accept invail number .");
+    if (value > 1.0) {
+        [self endRecord];
+    }else {
+        UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:kRecordCenter radius:kRecordW / 2 startAngle:- M_PI_2 endAngle:2 * M_PI * (value) - M_PI_2 clockwise:YES];
+        if (value - 0.1 <= CGFLOAT_MIN) {
+            CGFloat val = value / 0.1;
+            UIBezierPath *ballpath = [UIBezierPath bezierPathWithArcCenter:kRecordCenter radius:(kRecordW / 2  - 10) *val startAngle:0 endAngle:2 * M_PI clockwise:YES];
+            self.ballLayer.path = ballpath.CGPath;
+        }
+        self.progressLayer.path = path.CGPath;
     }
-    self.progressLayer.path = path.CGPath;
 }
 
 - (void)focusLayerNormal {
