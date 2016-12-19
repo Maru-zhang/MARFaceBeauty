@@ -142,7 +142,7 @@
 				TargetAttributes = {
 					AFBE91CE1DD6F86900357031 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = 678WD436L9;
+						DevelopmentTeam = 8DQR5VT4B3;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -191,7 +191,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		EE0B518176D74B958190F8A8 /* [CP] Copy Pods Resources */ = {
@@ -357,7 +357,7 @@
 			baseConfigurationReference = 00D2444F3B0C77A908E254E3 /* Pods-MARFaceBeauty.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 678WD436L9;
+				DEVELOPMENT_TEAM = 8DQR5VT4B3;
 				INFOPLIST_FILE = MARFaceBeauty/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -371,7 +371,7 @@
 			baseConfigurationReference = C4F3F167D8E5F0DC8AFDDD8F /* Pods-MARFaceBeauty.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 678WD436L9;
+				DEVELOPMENT_TEAM = 8DQR5VT4B3;
 				INFOPLIST_FILE = MARFaceBeauty/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
