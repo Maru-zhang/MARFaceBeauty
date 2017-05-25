@@ -14,7 +14,7 @@
 
 ### ScreenLives
 
-![Live](https://github.com/Maru-zhang/MARFaceBeauty/blob/master/GIF/2016-12-12 20_16_29.gif)
+![Live](https://github.com/Maru-zhang/MARFaceBeauty/blob/master/GIF/2016-12-12_20_16_29.gif)
 
 *** 
 
