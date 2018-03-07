@@ -12,12 +12,6 @@
 
 ***
 
-### ScreenLives
-
-![Live](https://github.com/Maru-zhang/MARFaceBeauty/blob/master/GIF/2016-12-12_20_16_29.gif)
-
-*** 
-
 ### Thanks
 
 Opensource libraries used
@@ -29,3 +23,5 @@ Opensource libraries used
 ### Licence
 
 This project uses MIT License.
+
+
